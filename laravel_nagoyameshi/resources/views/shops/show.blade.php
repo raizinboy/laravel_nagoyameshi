@@ -2,6 +2,9 @@
 
 @section('content')    
 <div class="container mb-5">
+    <div>
+        <a class="fs-5 ms-2" href="{{ route('shops.index') }}">店舗一覧</a> > <span class="fs-5">{{ $shop->name }}</span>
+    </div>
     <div class="row">
         <h1 class="display-1 pt-2 ms-2 col-md-9">{{ $shop->name }}</h1>
         @if($shop->isFavoritedBy(Auth::user()))
@@ -65,13 +68,64 @@
                     </form>
                 </div>
             </div>
-            @endauth
             <hr>
+            @endauth
+            <form method="POST" action="#">
             <h3 class="mt-3 ms-4 ">●予約（有料会員限定）</h3>
-            <div class="card-body d-flex justify-content-center">
-                <a href="#" class="card-link btn btn-success col-md-6" >予約する</a>
+            <div class="row d-flex justify-content-center">
+                <div class="p-1 col-md-6 border border-dark border-2 rounded">
+                    <div class="m-1 row d-flex justify-content-center">
+                        <div class="col-md-5 d-flex justify-content-center">
+                            <label class="" for="reserve_day"> 予約日</label>
+                        </div>
+                        <select class="col-md-5" name="reserve_day">
+                            <option value="" selected>選択してください</option>
+                            @foreach( $addDayLists as $addDayList )
+                            <option value="{{ $addDayList }}">{{ $addDayList }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="m-1 row d-flex justify-content-center">
+                        <div class=" col-md-5 d-flex justify-content-center">
+                            <label class="" for="reserve_time"> 予約時間</label>
+                        </div>
+                        <select class="col-md-5" name="reserve_time">
+                            <option value="" selected>選択してください</option>
+                            @foreach( $addTimes as $addTime)
+                            <option value="{{ $addTime }}">{{ $addTime}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="m-1 row d-flex justify-content-center"> 
+                        <div class="col-md-5 d-flex justify-content-center">
+                            <label class="" for="reserve_people"> 予約人数</label>
+                        </div>
+                        <select class="col-md-5" name="reserve_people" placeholder="選択してください">
+                            <option value="" selected>選択してください</option>
+                            <option value="1">1名</option>
+                            <option value="2">2名</option>
+                            <option value="3">3名</option>
+                            <option value="4">4名</option>
+                            <option value="5">5名</option>
+                            <option value="6">6名</option>
+                            <option value="7">7名</option>
+                            <option value="8">8名</option>
+                            <option value="9">9名</option>
+                            <option value="10">10名</option>
+                        </select>
+                    </div>
+                    <div class="m-1 row d-flex justify-content-center"> 
+                        <div class="col-md-5 d-flex justify-content-center">
+                            <label class="" for="reserve_message"> 店舗へのお知らせ</label>
+                        </div>
+                        <textarea class="col-md-5" name="reserve_message"></textarea>
+
+                    <div class="mt-3 row d-flex justify-content-center">
+                        <button type="submit" class="card-link btn btn-success col-md-4" >予約する</button>
+                    </div>
+                </div>
             </div>
-            </table>
+            </form>
         </div>
     </div>
 </div>

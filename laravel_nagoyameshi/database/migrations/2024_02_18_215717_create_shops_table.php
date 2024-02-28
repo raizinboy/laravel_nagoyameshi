@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
-            $table->foreignID('category_id')->references('id')->on('categories');
+            $table->foreignID('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
             $table->string('price');

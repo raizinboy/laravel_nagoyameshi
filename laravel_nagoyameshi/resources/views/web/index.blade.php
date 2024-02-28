@@ -13,23 +13,23 @@
                 <div class="carousel-item active position-relative vh-75">
                     <img src={{ asset('img/restaurant.jpeg') }} class="d-block w-100" alt="おしゃれなレストラン">
                     <div class="carousel-caption d-flex d-md-block position-absolute start-50 translate-middle mt-5 w-100">
-                        <p class="mt-5 fs-1 text-light">素敵なお店と！</p>
-                        <a href="{{ route('shops.index') }}" class="btn btn-primary">お店を探す</a>
+                        <p class="mt-5 ms-4 display-1 text-light">素敵なお店と！</p>
+                        <a href="{{ route('shops.index') }}" class="btn btn-primary pt-3 pb-3 w-25 fs-2">お店を探す</a>
                     </div>
                 </div>
                     <div class="carousel-item">
                     <img src={{ asset('img/yakiniku.jpg') }} class="d-block w-100" alt="焼肉">
                     <div class="carousel-caption d-flex d-md-block position-absolute start-50 translate-middle mt-5 w-100">
-                        <p class="mt-5 fs-1 text-white"">美味しい料理で！</p>
-                        <a href="{{ route('shops.index') }}" class="btn btn-primary">お店を探す</a>
+                        <p class="mt-5 ms-4 display-1 text-white"">美味しい料理で！</p>
+                        <a href="{{ route('shops.index') }}" class="btn btn-primary pt-3 pb-3 w-25 fs-2">お店を探す</a>
                     
                     </div>
                 </div>
                 <div class="carousel-item h-75">
                     <img src={{ asset('img/hito.jpg') }} class="d-block w-100" alt="食事を楽しむ女性">
                     <div class="carousel-caption d-flex d-md-block position-absolute start-50 translate-middle mt-5 w-100">
-                        <p class="mt-5 fs-1 text-white"">最高のひとときを！</p>
-                        <a href="{{ route('shops.index') }}" class="btn btn-primary">お店を探す</a>
+                        <p class="mt-5 ms-4 display-1 text-white"">最高のひとときを！</p>
+                        <a href="{{ route('shops.index') }}" class="btn btn-primary pt-3 pb-3 w-25 fs-2">お店を探す</a>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
             @endif
         </div>
         <div class="col-md-5">
-            <h2 class="mt-3">{{ $recommend_shop->name }}</h2>
+            <h2 class="mt-3">{{ $recommend_shop->name }}<span class="review-score-color ms-5">★ {{ $review_average_lists[$recommend_shop->id] }}</span></h2>
             <h3>{{ $recommend_shop->category->name }}</h3>
             <p>{{ $recommend_shop->description }}</p>
         </div>

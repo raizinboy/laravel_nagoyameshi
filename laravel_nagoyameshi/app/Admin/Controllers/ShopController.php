@@ -100,7 +100,7 @@ class ShopController extends AdminController
         $form->text('postal_code', __('Postal code'));
         $form->text('address', __('Address'));
         $form->mobile('phone', __('Phone'));
-        $form->text('regular_holiday', __('Regular holiday'));
+        $form->multipleSelect('regular_holiday', __('Regular holiday'))->options(['月曜日','火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日']);
         $form->image('image', __('Image'));
         $form->switch('recommend_flag', __('Recommend Flag'));
 
