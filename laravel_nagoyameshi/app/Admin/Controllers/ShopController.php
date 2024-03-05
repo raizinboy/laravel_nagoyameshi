@@ -48,6 +48,7 @@ class ShopController extends AdminController
             $filter->like('description', '商品説明');
             $filter->in('category_id', 'カテゴリー')->multipleSelect(Category::all()->pluck('name', 'id'));
             $filter->equal('recommend_flag', 'おすすめフラグ')->select([ '0' => 'false', '1' => 'true' ]);
+            $filter->between('created_at', '登録日')->datetime();
         });
 
         return $grid;
@@ -63,7 +64,7 @@ class ShopController extends AdminController
     {
         $show = new Show(Shop::findOrFail($id));
 
-        $show->field('id', __('Id'));
+        $show->field('id', __('Id'))->sortable();
         $show->field('category.name', __('Category Name'));
         $show->field('name', __('Name'));
         $show->field('furigana', __('Furigana'));
@@ -95,12 +96,12 @@ class ShopController extends AdminController
         $form->text('name', __('Name'));
         $form->text('furigana', __('Furigana'));
         $form->textarea('description', __('Description'));
-        $form->text('price', __('Price'));
+        $form->select('price', __('Price'))->options(['~999', '1000~~1999', '2000~2999', '3001~3999', '4000~4999', '5000~']);
         $form->text('business_hours', __('Business hours'));
         $form->text('postal_code', __('Postal code'));
         $form->text('address', __('Address'));
         $form->mobile('phone', __('Phone'));
-        $form->multipleSelect('regular_holiday', __('Regular holiday'))->options(['月曜日','火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日']);
+        $form->multipleSelect('regular_holiday', __('Regular holiday'))->options(['日曜日','月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日']);
         $form->image('image', __('Image'));
         $form->switch('recommend_flag', __('Recommend Flag'));
 

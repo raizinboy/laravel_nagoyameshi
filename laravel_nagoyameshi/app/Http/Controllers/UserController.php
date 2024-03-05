@@ -92,4 +92,55 @@ class UserController extends Controller
 
         return view('users.favorite', compact('favorites'));
     }
+
+    public function getPaymentMethod()
+    {
+        $success = "";
+        //クレジットカードの登録に必要なシークレットをStripeから取得する
+        return view('users.payment_method', [
+            'intent' => Auth::user()->createSetupIntent(),
+            'user' => Auth::user()
+        ])->with('success');
+    }
+
+    public function postPaymentMethod(Request $request)
+    {
+        $user = Auth::user();
+
+        if($user->stripe_id){
+        } else {
+        // Stripe顧客を作成する
+        $stripeCustomer = Auth::user()->createAsStripeCustomer();
+        }
+        //トークンを受け取り、stripeに検証したうえで、usersテーブルに、支払い状況を登録する。
+        Auth::user()->updateDefaultPaymentMethod($request->payment_method);
+        $paymentMethod = Auth::user()->defaultPaymentMethod()->paymentMethod;
+        Auth::user()->newSubscription('default', 'price_1OpAXaEGtiTwOKkt8euYUjuS')->create($paymentMethod);
+
+        return response()->redirectTo('/users/payment_method')->with(['success' => "サブスクリプションを登録しました。"]);
+        
+    }
+
+    public function cancelsubscription(Request $request){
+        $user = Auth::user();
+        $user->subscription('default')->cancel();
+
+        return back()->with(['success' => "サブスクリプションを解約しました。"]);
+    }
+
+    public function resumesubscription(Request $request){
+        $user = Auth::user();
+        $user->subscription('default')->resume();
+        return back()->with(['success' => "サブスクリプションの解約をとりけしました。"]);
+    }
+
+    /*
+    public function postSubscriptions(Request $request)
+    {
+        //登録済みのデフォルト支払い方法を使用
+        $paymentMethod = Auth::user()->defaultPaymentMethod()->paymentMethod;
+        Auth::user()->newSubscription('default', 'price_1OpAXaEGtiTwOKkt8euYUjuS')->create($paymentMethod);
+        return response()->redirectTo('users/subscrioptions');
+    }
+    */
 }

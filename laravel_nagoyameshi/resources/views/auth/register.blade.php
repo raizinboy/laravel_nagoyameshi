@@ -45,10 +45,11 @@
                      <div class="col-md-6 d-flex align-items-center">
                          <input id="email" type="email" class="form-control @error('email') is-invalid @enderror samuraimart-login-input" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="nagoyameshi@nagoyameshi.com">
  
+                         
                          @error('email')
-                         <span class="invalid-feedback" role="alert">
+                         <h6 class="invalid-feedback" role="alert">
                              <strong>メールアドレスを入力してください</strong>
-                         </span>
+                        </h6>
                          @enderror
                      </div>
                  </div>

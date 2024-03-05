@@ -37,6 +37,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-1 d-flex align-items-center ps-1">
+                    <i class=" fa-solid fa-credit-card fa-3x"></i>
+                </div>
+                <div class="col-md-10 d-flex align-items-center">
+                        <a class="fs-3 mypage_btn" href="{{ route('mypage.getPaymentMethod') }}">有料会員登録</a>
+                </div>
+            </div>
+        </div>
+
+
+        <hr>
+        
+        @auth
+        @if (auth()->user()->subscribed('default'))
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1 d-flex align-items-center ps-1">
                     <i class=" fa-solid fa-heart fa-3x"></i>
                 </div>
                 <div class="col-md-10 d-flex align-items-center">
@@ -53,13 +69,15 @@
                     <i class=" fa-solid fa-shop fa-3x"></i>
                 </div>
                 <div class="col-md-10 d-flex align-items-center">
-                        <a class="fs-3 mypage_btn" href="#" >予約の確認</a>
+                        <a class="fs-3 mypage_btn" href="{{ route('reservation.show') }}" >予約の確認</a>
                 </div>
             </div>
         </div>
 
         <hr>
 
+        @endif
+        @endauth
         <div class="container">
             <div class="row">
                 <div class="col-md-1 d-flex align-items-center ps-2">

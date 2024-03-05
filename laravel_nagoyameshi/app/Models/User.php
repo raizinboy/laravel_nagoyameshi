@@ -11,10 +11,11 @@ use App\Notifications\CustomVerifyEmail;
 use App\Notifications\CustomResetPassword;
 use Overtrue\LaravelFavorite\Traits\Favoriter;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, Favoriter, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, Favoriter, SoftDeletes, Billable;
 
     protected $dates = ['deleted_at'];
 
@@ -63,5 +64,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function subsciptions()
+    {
+        return $this->hasMany(Subscription::class);
     }
 }

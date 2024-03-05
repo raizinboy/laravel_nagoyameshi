@@ -5,18 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class Subscription extends Model
 {
     use HasFactory;
 
-    public function shop()
-    {
-        return $this->belongsTo(Shop::class);
-    }
-
-    public function user()
+    public function category()
     {
         return $this->belongsTo(User::class);
     }
-
 }

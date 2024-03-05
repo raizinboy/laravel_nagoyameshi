@@ -18,4 +18,5 @@ Route::group([
     $router->resource('categories', CategoryController::class);
     $router->resource('shops', ShopController::class);
     $router->resource('companyInformations', CompanyInformationController::class);
+    $router->resource('users', UserController::class);
 });

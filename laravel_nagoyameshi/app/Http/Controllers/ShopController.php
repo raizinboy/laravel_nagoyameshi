@@ -56,7 +56,6 @@ class ShopController extends Controller
             };
         }
 
-        
         $categories = Category::all();
 
         return view('shops.index', compact('shops', 'categories', 'category', 'total_count', 'category_id','review_average_lists', 'shop_name'));
@@ -77,8 +76,8 @@ class ShopController extends Controller
 
 
         $nowDay = Carbon::now(); 
-
-        $setTime = $nowDay->setTime(9,0,0);
+        //9時から22時まで15分ごとの時間を取得
+        $setTime = $nowDay->copy()->setTime(9,0,0);
         $timestring = substr($setTime->toTimeString(), 0, 5);
         $addTimes = ["$timestring"];
         
@@ -88,20 +87,25 @@ class ShopController extends Controller
             array_push($addTimes, "$timestring");
         }
         
-        $nowDay = Carbon::now(); 
+        //現在日時から一ヵ月間の日付の配列を作成する
         $datestring = $nowDay->toDateString();
         $addDayLists = ["$datestring"];
 
-        for ($i = 1 ; $i <= 30 ; $i++){ 
-        $addDays = new Carbon("+$i day");
-        $datestring = $addDays->toDateString();
-        array_push($addDayLists, "$datestring");  
-        }
-        
-    
-        
+        $todayweekday = $nowDay->format('N');
+        $addDayweekdaylist = ["$todayweekday"];
 
-        return view('shops.show', compact('shop', 'reviews', 'review_average','addDayLists', 'addTimes'));
+        for ($i = 1 ; $i <= 30 ; $i++){ 
+        $addDay = $nowDay->copy()->addDay($i);
+        $datestring = $addDay->toDateString();
+        array_push($addDayLists, "$datestring");  
+        $addDayweekday = $addDay->format('N');
+        array_push($addDayweekdaylist, "addDayweekday");
+        }
+
+        $price_lists = ['0~999', '1000~1999', '2000~2999', '3000~3999', '4000~4999', '5000~'];
+        $week = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
+
+        return view('shops.show', compact('shop', 'reviews', 'review_average','addDayLists', 'addTimes', 'price_lists', 'addDayweekdaylist','week'));
     }
 
     public function favorite(Shop $shop)

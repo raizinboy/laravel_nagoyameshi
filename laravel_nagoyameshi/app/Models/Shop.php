@@ -11,6 +11,10 @@ class Shop extends Model
 {
     use HasFactory, Sortable, Favoriteable;
 
+    protected $casts = [
+        'regular_holiday' => 'array'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -20,4 +24,11 @@ class Shop extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Review::class);
+    }
+   
+
 }

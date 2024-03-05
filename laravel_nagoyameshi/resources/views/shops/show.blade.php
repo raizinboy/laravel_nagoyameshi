@@ -2,6 +2,9 @@
 
 @section('content')    
 <div class="container mb-5">
+    @if(session('message'))
+    <div class="alert alert-success p-5 m-2 fs-1 fw-bold text-center ">{{session('message')}}</div>
+    @endif
     <div>
         <a class="fs-5 ms-2" href="{{ route('shops.index') }}">店舗一覧</a> > <span class="fs-5">{{ $shop->name }}</span>
     </div>
@@ -30,8 +33,12 @@
                 <li class="list-group-item">住所：{{ $shop->address }}</li>
                 <li class="list-group-item">電話番号：{{ $shop->phone }}</li>
                 <li class="list-group-item">営業時間：{{ $shop->business_hours }}</li>
-                <li class="list-group-item">定休日：{{ $shop->regular_holiday }}</li>
-                <li class="list-group-item">価格帯：{{ $shop->price }}</li>
+                <li class="list-group-item">定休日：
+                    @foreach($shop->regular_holiday as $regular_holiday)
+                    {{ $week[$regular_holiday] }}
+                    @endforeach
+                </li>
+                <li class="list-group-item">価格帯：{{ $price_lists[ $shop->price] }}円</li>
             </ul>
             <h3 class="mt-3 ms-4 ">●みんなのレビュー <span class="ms-2">★{{ $review_average }}</span></h3>
             <div class="row">
@@ -45,6 +52,7 @@
             </div><br>
 
             @auth
+            @if (auth()->user()->subscribed('default'))
             <h3 class="mt-3 ms-4 ">●レビューを投稿（有料会員限定）</h3>
             <div class="row">
                 <div class="col-md-8 ms-5 mt-3 ps-2 ">
@@ -59,26 +67,26 @@
                             <option value="1" class="review-score-color">★</option>
                         </select>
                         <h4>レビュー内容</h4>
-                        @error('content')
-                            <strong>レビュー内容を入力してください</strong>
-                        @enderror
-                        <textarea name="content" class="form-control me-5"></textarea>
+                        
+                        <textarea name="content" required class="form-control me-5"></textarea>
                         <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                         <button type="submit" class="btn btn-primary mt-2">レビューを追加</button>
                     </form>
                 </div>
             </div>
             <hr>
-            @endauth
-            <form method="POST" action="#">
             <h3 class="mt-3 ms-4 ">●予約（有料会員限定）</h3>
+            <form method="POST" action="{{ route('reservation.store') }}">
+            @csrf
+            <input type="hidden" name="shop_id" value="{{ $shop->id }}">
             <div class="row d-flex justify-content-center">
                 <div class="p-1 col-md-6 border border-dark border-2 rounded">
                     <div class="m-1 row d-flex justify-content-center">
+
                         <div class="col-md-5 d-flex justify-content-center">
-                            <label class="" for="reserve_day"> 予約日</label>
+                            <label for="reserve_day"> 予約日</label>
                         </div>
-                        <select class="col-md-5" name="reserve_day">
+                        <select class="col-md-5" required name="reserve_day">
                             <option value="" selected>選択してください</option>
                             @foreach( $addDayLists as $addDayList )
                             <option value="{{ $addDayList }}">{{ $addDayList }}</option>
@@ -87,9 +95,9 @@
                     </div>
                     <div class="m-1 row d-flex justify-content-center">
                         <div class=" col-md-5 d-flex justify-content-center">
-                            <label class="" for="reserve_time"> 予約時間</label>
+                            <label for="reserve_time"> 予約時間</label>
                         </div>
-                        <select class="col-md-5" name="reserve_time">
+                        <select  class="col-md-5" required name="reserve_time">
                             <option value="" selected>選択してください</option>
                             @foreach( $addTimes as $addTime)
                             <option value="{{ $addTime }}">{{ $addTime}}</option>
@@ -98,9 +106,9 @@
                     </div>
                     <div class="m-1 row d-flex justify-content-center"> 
                         <div class="col-md-5 d-flex justify-content-center">
-                            <label class="" for="reserve_people"> 予約人数</label>
+                            <label for="reserve_people"> 予約人数</label>
                         </div>
-                        <select class="col-md-5" name="reserve_people" placeholder="選択してください">
+                        <select class="col-md-5" required name="reserve_people" placeholder="選択してください">
                             <option value="" selected>選択してください</option>
                             <option value="1">1名</option>
                             <option value="2">2名</option>
@@ -116,7 +124,7 @@
                     </div>
                     <div class="m-1 row d-flex justify-content-center"> 
                         <div class="col-md-5 d-flex justify-content-center">
-                            <label class="" for="reserve_message"> 店舗へのお知らせ</label>
+                            <label for="reserve_message"> 店舗へのお知らせ</label>
                         </div>
                         <textarea class="col-md-5" name="reserve_message"></textarea>
 
@@ -126,6 +134,8 @@
                 </div>
             </div>
             </form>
+            @endif
+            @endauth
         </div>
     </div>
 </div>
