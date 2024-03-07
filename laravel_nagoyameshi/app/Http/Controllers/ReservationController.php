@@ -25,13 +25,20 @@ class ReservationController extends Controller
             'reserve_people' => 'required',
         ]);
 
+        $currentDate = now();
+        $dateNow = strtotime($currentDate);
+        $reserveTime = strtotime($request->input('reserve_time'));
+        $reserveDay = strtotime($request->input('reserve_day'));
         $date = date("w", strtotime($request->input('reserve_day')));
 
         $shop_regular_holiday = Shop::where('id', $request->input('shop_id'))->pluck('regular_holiday');
 
-        if( strpos($shop_regular_holiday ,$date)) {
+
+        if ( $dateNow >= $reserveDay && $dateNow >= $reserveTime ) { 
+        return back()->with('message', '予約時間は現在時刻より未来の時間を選択してください。');
+        } elseif( strpos($shop_regular_holiday ,$date)) {
             return back()->with('message', '予約日が定休日のため予約できませんでした。');
-        } else {
+        } else { 
         $reservation = new Reservation();
         $reservation->shop_id = $request->input('shop_id');
         $reservation->user_id = Auth::user()->id;

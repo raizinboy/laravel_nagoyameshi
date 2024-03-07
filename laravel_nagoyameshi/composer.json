@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "carbonphp/carbon-doctrine-types": "^2.0",
-        "doctrine/dbal": "^2.9|^3.0",
+        "doctrine/dbal": "^3.8",
         "encore/laravel-admin": "^1.8",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^3.4",

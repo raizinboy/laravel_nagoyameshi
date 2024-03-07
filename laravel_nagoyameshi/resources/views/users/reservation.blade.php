@@ -40,7 +40,7 @@
                         @csrf
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="id" value="{{ $reservation->id }}">
-                        <div class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#delete-reservation-modal">退会する</div>
+                        <div class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#delete-reservation-modal">予約取消</div>
             
                         <!-- 予約削除モーダル-->
                         <div class="modal fade" id="delete-reservation-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">

@@ -78,13 +78,12 @@ class ShopController extends Controller
         $nowDay = Carbon::now(); 
         //9時から22時まで15分ごとの時間を取得
         $setTime = $nowDay->copy()->setTime(9,0,0);
-        $timestring = substr($setTime->toTimeString(), 0, 5);
-        $addTimes = ["$timestring"];
+        $addTime = $setTime->format('H:i');
+        $addTimes = ["$addTime"];
         
         for($num = 1; $num <= 52; $num++ ){
-            $addTime = $setTime->addMinute(15)->toTimeString();
-            $timestring = substr($addTime, 0, 5);
-            array_push($addTimes, "$timestring");
+            $addTime = $setTime->addMinute(15)->format('H:i');
+            array_push($addTimes, "$addTime");
         }
         
         //現在日時から一ヵ月間の日付の配列を作成する
@@ -105,7 +104,7 @@ class ShopController extends Controller
         $price_lists = ['0~999', '1000~1999', '2000~2999', '3000~3999', '4000~4999', '5000~'];
         $week = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
 
-        return view('shops.show', compact('shop', 'reviews', 'review_average','addDayLists', 'addTimes', 'price_lists', 'addDayweekdaylist','week'));
+        return view('shops.show', compact('shop', 'reviews', 'review_average','addDayLists', 'addTimes', 'price_lists', 'addDayweekdaylist','week', 'setTime'));
     }
 
     public function favorite(Shop $shop)
